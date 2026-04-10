@@ -40,3 +40,4 @@ def remover_produto(estoque, nome, quantidade):
     if estoque[nome] == 0:
         del estoque[nome]
     return estoque
+    

@@ -21,4 +21,3 @@ def test_impedir_quantidade_negativa():
 def test_remover_mais_que_o_estoque():
     with pytest.raises(ValueError):
         remover_produto({"borracha": 5}, "borracha", 10)
-        

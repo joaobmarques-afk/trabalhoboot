@@ -1,2 +1,28 @@
-Aplicação CLI para controle de estoque básico, resolvendo a dor de microempreendedores.
-**Tecnologias:** Python, pytest, flake8, GitHub Actions.
+# EcoTracker - Sistema de Controle de Estoque
+
+![Versão](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Python](https://img.shields.io/badge/python-3.13-blue.svg)
+![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)
+
+## Sobre o Projeto
+O EcoTracker Estoque é uma aplicação de Interface de Linha de Comando (CLI) desenvolvida em Python. O objetivo principal é fornecer uma ferramenta leve e eficiente para microempreendedores gerenciarem seus produtos, resolvendo a dor do controle de estoque manual.
+
+Este projeto foi desenvolvido com foco total em Qualidade de Software, implementando testes automatizados, padronização de código (PEP 8) e pipeline de Integração Contínua (CI).
+
+## Funcionalidades
+* Adicionar Produto: Insere novos produtos no estoque ou atualiza a quantidade de produtos existentes.
+* Remover Produto: Dá baixa em produtos, com validações automáticas para evitar estoque negativo.
+* Persistência de Dados: Todos os dados são salvos automaticamente em um arquivo `estoque.json`, garantindo que nenhuma informação seja perdida ao fechar o programa.
+* Validações de Regras de Negócio: Proteção contra quantidades negativas ou remoções que excedem o estoque atual.
+
+## Tecnologias Utilizadas
+* Python 3: Linguagem principal do projeto.
+* Pytest: Framework utilizado para a criação e execução dos testes automatizados (Testando caminhos felizes, exceções e limites).
+* Flake8: Ferramenta de Linting para garantir a qualidade e formatação do código segundo as diretrizes PEP 8.
+* GitHub Actions: Pipeline de CI/CD configurado (`ci.yml`) para executar automaticamente o Pytest e o Flake8 a cada novo commit (Push/Pull Request).
+
+## Como Executar o Projeto Localmente
+
+1. Clone o repositório:
+```bash
+git clone [https://github.com/joaobmarques-afk/trabalhoboot.git](https://github.com/joaobmarques-afk/trabalhoboot.git)

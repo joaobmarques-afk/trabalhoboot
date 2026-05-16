@@ -1,9 +1,6 @@
-import json
-
 import requests
 
 from src.api_produtos import buscar_produto_por_barcode
-
 
 
 class FakeResponse:

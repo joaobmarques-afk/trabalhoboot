@@ -1,6 +1,14 @@
+import os
+import sys
+
 import requests
 
-from src.api_produtos import buscar_produto_por_barcode
+# garantir que a pasta raiz (que contém "src") esteja no sys.path
+RAIZ = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if RAIZ not in sys.path:
+    sys.path.insert(0, RAIZ)
+
+from src.api_produtos import buscar_produto_por_barcode  # noqa: E402
 
 
 class FakeResponse:

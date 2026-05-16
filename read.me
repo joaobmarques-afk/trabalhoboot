@@ -26,3 +26,66 @@ Este projeto foi desenvolvido com foco total em Qualidade de Software, implement
 1. Clone o repositório:
 ```bash
 git clone [https://github.com/joaobmarques-afk/trabalhoboot.git](https://github.com/joaobmarques-afk/trabalhoboot.git)
+
+# EcoTracker – Gerenciamento de Produtos com Integração de API
+
+## Visão Geral
+
+EcoTracker é um sistema simples de gerenciamento de estoque em linha de comando (CLI),
+desenvolvido em Python. 
+
+Nesta entrega foi adicionada uma funcionalidade de **integração com a API pública
+Open Food Facts**, permitindo buscar informações de produtos pelo código de barras (EAN)
+e adicionar esses produtos ao estoque automaticamente.
+
+---
+
+## Integração com API Pública
+
+- **API:** Open Food Facts
+- **URL base:** https://world.openfoodfacts.org/
+- **Endpoint utilizado:**
+  `https://world.openfoodfacts.org/api/v0/product/{barcode}.json`
+- **Autenticação:** não requer chave de API
+
+### O que a integração faz?
+
+- O usuário informa um **código de barras (EAN)**.
+- O sistema consulta a API Open Food Facts.
+- São obtidos e exibidos:
+  - Nome do produto
+  - Marca
+  - Categoria
+  - País de origem
+- Caso o produto seja encontrado, o usuário pode adicionar esse item
+  diretamente ao estoque, usando o nome retornado pela API.
+
+---
+
+## Como rodar o projeto localmente
+
+### Pré‑requisitos
+
+- Python 3.13 instalado
+- pip configurado (acessível via `py -m pip` no Windows)
+
+### Passos
+
+```bash
+# Clonar o repositório
+git clone https://github.com/joaobmarques-afk/trabalhoboot.git
+cd trabalhoboot
+
+# Criar e/ou ativar ambiente virtual (opcional, mas recomendado)
+# python -m venv venv
+# venv\Scripts\activate  # Windows
+# source venv/bin/activate  # Linux/Mac
+
+# Instalar dependências
+py -m pip install -r requirements.txt
+
+# Rodar testes
+py -m pytest -v
+
+# Executar o sistema
+py src/main.py

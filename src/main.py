@@ -2,6 +2,7 @@ import json
 import os
 
 from api_produtos import buscar_produto_por_barcode, exibir_info_produto
+from src.database import inicializar_banco, salvar_produto, listar_produtos
 
 __version__ = "1.0.0"
 ARQUIVO_DADOS = "estoque.json"
@@ -49,10 +50,21 @@ def remover_produto(estoque, nome, quantidade):
 
 
 def buscar_produto_api(barcode):
-    """Busca um produto na API Open Food Facts por código de barras."""
+    """Busca um produto na API Open Food Facts por código de barras e salva no banco."""
     try:
         info = buscar_produto_por_barcode(barcode)
         exibir_info_produto(info)
+        
+        # Se o produto for encontrado com sucesso, salvamos também no PostgreSQL em nuvem
+        if info and info.get("encontrado"):
+            salvar_produto(
+                nome=info.get("nome", "Desconhecido"),
+                codigo_barras=barcode,
+                marca=info.get("marca", "Não informada"),
+                categoria=info.get("categoria", "Não informada")
+            )
+            print("💾 Produto salvo com sucesso no Banco de Dados em Nuvem!")
+            
         return info
     except ValueError as exc:
         print(f"Erro: {str(exc)}")
@@ -72,7 +84,7 @@ def listar_estoque(estoque):
     print("LISTAGEM DO ESTOQUE")
     print("=" * 60)
     for nome, quantidade in estoque.items():
-        print(f"  • {nome.upper()}: {quantidade} unidades")
+        print(f"   • {nome.upper()}: {quantidade} unidades")
     print("=" * 60 + "\n")
 
 
@@ -170,4 +182,6 @@ def menu_principal():
 
 
 if __name__ == "__main__":
+    # Garante a criação da tabela no PostgreSQL na nuvem antes de rodar o menu interativo
+    inicializar_banco()
     menu_principal()

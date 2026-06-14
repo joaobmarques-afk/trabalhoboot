@@ -4,28 +4,23 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from unittest.mock import MagicMock
 
+
 def obter_conexao():
-    """
-    Busca a string de conexão das variáveis de ambiente.
-    Se detectar que está rodando dentro do Pytest, retorna um Mock simulado
-    para não quebrar a esteira de CI do GitHub Actions.
-    """
-    # Verifica se o 'pytest' está nos módulos carregados do sistema
+    """Busca a string de conexão das variáveis de ambiente."""
     if "pytest" in sys.modules or "pytest" in sys.argv[0]:
-        # Retorna um objeto fingido que aceita qualquer chamada sem estourar erro
         return MagicMock()
 
-    url_banco = os.getenv("DATABASE_URL", "postgresql://usuario:senha@localhost:5432/trabalhoboot")
+    url_padrao = (
+        "postgresql://usuario:senha@localhost:5432/trabalhoboot"
+    )
+    url_banco = os.getenv("DATABASE_URL", url_padrao)
     return psycopg2.connect(url_banco)
 
+
 def inicializar_banco():
-    """
-    Cria a tabela de produtos automaticamente se ela não existir.
-    Protegida com try/except para ambientes de teste ou sem banco configurado.
-    """
-    # Se for ambiente de teste do Pytest, pula a execução real
+    """Cria a tabela de produtos automaticamente se não existir."""
     if "pytest" in sys.modules or "pytest" in sys.argv[0]:
-        print("🤖 Ambiente de testes detectado: ignorando inicialização real do banco.")
+        print("🤖 Ambiente de testes: ignorando banco real.")
         return
 
     comando_sql = """
@@ -52,8 +47,9 @@ def inicializar_banco():
         if conexao and not isinstance(conexao, MagicMock):
             conexao.close()
 
+
 def salvar_produto(nome, codigo_barras, marca, categoria):
-    """Insere um novo produto no banco, ignorando se for ambiente de testes."""
+    """Insere um novo produto no banco."""
     if "pytest" in sys.modules or "pytest" in sys.argv[0]:
         return
 
@@ -70,6 +66,7 @@ def salvar_produto(nome, codigo_barras, marca, categoria):
     cursor.close()
     conexao.close()
 
+
 def listar_produtos():
     """Retorna os produtos salvos ou uma lista vazia se for teste."""
     if "pytest" in sys.modules or "pytest" in sys.argv[0]:
@@ -77,7 +74,10 @@ def listar_produtos():
 
     conexao = obter_conexao()
     cursor = conexao.cursor(cursor_factory=RealDictCursor)
-    cursor.execute("SELECT id, nome, codigo_barras, marca, categoria, data_cadastro FROM produtos ORDER BY data_cadastro DESC;")
+    cursor.execute(
+        "SELECT id, nome, codigo_barras, marca, categoria, data_cadastro "
+        "FROM produtos ORDER BY data_cadastro DESC;"
+    )
     produtos = cursor.fetchall()
     cursor.close()
     conexao.close()

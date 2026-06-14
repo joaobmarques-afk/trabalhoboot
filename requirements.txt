@@ -1,3 +1,6 @@
 pytest==7.4.0
 flake8==6.0.0
 requests==2.31.0
+
+pymongo
+python-dotenv

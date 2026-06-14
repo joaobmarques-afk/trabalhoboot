@@ -12,5 +12,5 @@ try:
     db = client["ecotracker_db"]
     estoque_colecao = db["estoque"]
 except Exception as e:
-    print(f"Erro crítico ao conectar no MongoDB: {e}")
+    print("X Erro critico ao conectar no MongoDB: {e}")
     estoque_colecao = None

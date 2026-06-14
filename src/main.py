@@ -2,7 +2,7 @@ import json
 import os
 
 from api_produtos import buscar_produto_por_barcode, exibir_info_produto
-from src.database import inicializar_banco, salvar_produto, listar_produtos
+from database import inicializar_banco, salvar_produto, listar_produtos
 
 __version__ = "1.0.0"
 ARQUIVO_DADOS = "estoque.json"

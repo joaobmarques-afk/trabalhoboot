@@ -1,7 +1,9 @@
 import json
 import os
 
+from flask import Flask, jsonify
 from api_produtos import buscar_produto_por_barcode, exibir_info_produto
+from database import inicializar_banco, salvar_produto
 
 __version__ = "1.0.0"
 ARQUIVO_DADOS = "estoque.json"
@@ -49,10 +51,20 @@ def remover_produto(estoque, nome, quantidade):
 
 
 def buscar_produto_api(barcode):
-    """Busca um produto na API Open Food Facts por código de barras."""
+    """Busca um produto na API e salva no banco."""
     try:
         info = buscar_produto_por_barcode(barcode)
         exibir_info_produto(info)
+
+        if info and info.get("encontrado"):
+            salvar_produto(
+                nome=info.get("nome", "Desconhecido"),
+                codigo_barras=barcode,
+                marca=info.get("marca", "Não informada"),
+                categoria=info.get("categoria", "Não informada")
+            )
+            print("💾 Produto salvo com sucesso no Banco de Dados em Nuvem!")
+
         return info
     except ValueError as exc:
         print(f"Erro: {str(exc)}")
@@ -71,8 +83,8 @@ def listar_estoque(estoque):
     print("\n" + "=" * 60)
     print("LISTAGEM DO ESTOQUE")
     print("=" * 60)
-    for nome, quantidade in estoque.items():
-        print(f"  • {nome.upper()}: {quantidade} unidades")
+    for nome, quantity_item in estoque.items():
+        print(f"   • {nome.upper()}: {quantity_item} unidades")
     print("=" * 60 + "\n")
 
 
@@ -168,6 +180,18 @@ def menu_principal():
         else:
             print("Opção inválida! Tente novamente.")
 
+app = Flask(__name__)
+
+@app.route('/')
+def api_ver_estoque():
+    """Rota para o professor acessar e ver o estoque do banco de dados."""
+    estoque_atual = carregar_dados()
+    return jsonify({
+        "projeto": "EcoTracker",
+        "status": "Online",
+        "estoque": estoque_atual
+    })
 
 if __name__ == "__main__":
-    menu_principal()
+    porta = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=porta)

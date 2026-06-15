@@ -1,15 +1,4 @@
 import os
-<<<<<<< HEAD
-import certifi
-=======
-import sys
-import psycopg2
-from psycopg2.extras import RealDictCursor
-from unittest.mock import MagicMock
->>>>>>> 8bb27013863411a17f8b9ef273a484a30397598b
-from pymongo import MongoClient
-from dotenv import load_dotenv
-import os
 import sys
 import certifi
 from pymongo import MongoClient
@@ -50,7 +39,7 @@ def salvar_produto(*args, **kwargs):
         # Se o main.py passar um dicionário pronto
         if len(args) == 1 and isinstance(args[0], dict):
             produto = args[0]
-        # Se o main.py passar os campos separados: nome, codigo_barras, marca, categoria
+        # Se o main.py passar os campos separados
         elif len(args) >= 1:
             produto = {
                 "nome": args[0],

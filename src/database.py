@@ -3,7 +3,8 @@ import sys
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from unittest.mock import MagicMock
-
+from pymongo import MongoClient
+from dotenv import load_dotenv
 
 def obter_conexao():
     """Busca a string de conexão das variáveis de ambiente."""
@@ -82,8 +83,7 @@ def listar_produtos():
     cursor.close()
     conexao.close()
     return produtos
-from pymongo import MongoClient
-from dotenv import load_dotenv
+
 
 load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")

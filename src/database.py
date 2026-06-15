@@ -6,6 +6,7 @@ from unittest.mock import MagicMock
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
+
 def obter_conexao():
     """Busca a string de conexão das variáveis de ambiente."""
     if "pytest" in sys.modules or "pytest" in sys.argv[0]:

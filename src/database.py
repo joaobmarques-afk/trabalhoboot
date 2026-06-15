@@ -1,5 +1,4 @@
 import os
-feature/integracao-banco-bruno
 import sys
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -98,4 +97,3 @@ try:
 except Exception as e:
     print(f"X Erro critico ao conectar no MongoDB: {e}")
     estoque_colecao = None
-main
